@@ -1,15 +1,33 @@
 import { getCompany } from "../db/companies.js";
 import { getCompanyJobs, getJob, getJobs } from "../db/jobs.js";
-import { formatISODate } from "../utils/helpers.js";
+import { formatISODate, throwNotFound } from "../utils/helpers.js";
 
 export const resolvers = {
   Query: {
-    job: (_root, { id }) => getJob(id),
+    job: async (_root, { id }) => {
+      const job = await getJob(id);
+      if (!job) {
+        throwNotFound(`Job with ID ${id} not found`);
+      }
+      return job;
+    },
     jobs: () => getJobs(),
-    company: (_root, { id }) => getCompany(id),
+    company: async (_root, { id }) => {
+      const company = await getCompany(id);
+      if (!company) {
+        throwNotFound(`Company with ID ${id} not found`);
+      }
+      return company;
+    },
   },
   Job: {
-    company: (job) => getCompany(job.companyId),
+    company: async (job) => {
+      const company = await getCompany(job.companyId);
+      if (!company) {
+        throwNotFound(`Company with ID ${id} not found`);
+      }
+      return company;
+    },
     date: (job) => formatISODate(job.createdAt),
   },
   Company: {
