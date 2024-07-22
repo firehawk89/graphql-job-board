@@ -1,10 +1,12 @@
 import { getCompany } from "../db/companies.js";
-import { getJobs } from "../db/jobs.js";
+import { getJob, getJobs } from "../db/jobs.js";
 import { formatISODate } from "../utils/helpers.js";
 
 export const resolvers = {
   Query: {
+    job: (_root, { id }) => getJob(id),
     jobs: () => getJobs(),
+    company: (_root, { id }) => getCompany(id),
   },
   Job: {
     company: (job) => getCompany(job.companyId),
