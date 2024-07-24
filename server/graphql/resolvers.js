@@ -1,5 +1,11 @@
 import { getCompany } from "../db/companies.js";
-import { createJob, getCompanyJobs, getJob, getJobs } from "../db/jobs.js";
+import {
+  createJob,
+  deleteJob,
+  getCompanyJobs,
+  getJob,
+  getJobs,
+} from "../db/jobs.js";
 import { formatISODate, throwNotFound } from "../utils/helpers.js";
 
 export const resolvers = {
@@ -27,6 +33,7 @@ export const resolvers = {
       const { title, description } = input;
       return createJob({ companyId, title, description });
     },
+    deleteJob: async (_root, { id }) => deleteJob(id),
   },
   Job: {
     company: async (job) => {
