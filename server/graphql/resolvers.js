@@ -1,5 +1,5 @@
 import { getCompany } from "../db/companies.js";
-import { getCompanyJobs, getJob, getJobs } from "../db/jobs.js";
+import { createJob, getCompanyJobs, getJob, getJobs } from "../db/jobs.js";
 import { formatISODate, throwNotFound } from "../utils/helpers.js";
 
 export const resolvers = {
@@ -18,6 +18,14 @@ export const resolvers = {
         throwNotFound(`Company with ID ${id} not found`);
       }
       return company;
+    },
+  },
+  Mutation: {
+    createJob: async (_root, { input }) => {
+      // FIXME: hardcoded value, should base on the user
+      const companyId = "FjcJCHJALA4i";
+      const { title, description } = input;
+      return createJob({ companyId, title, description });
     },
   },
   Job: {
