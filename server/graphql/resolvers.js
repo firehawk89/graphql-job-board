@@ -5,6 +5,7 @@ import {
   getCompanyJobs,
   getJob,
   getJobs,
+  updateJob,
 } from "../db/jobs.js";
 import { formatISODate, throwNotFound } from "../utils/helpers.js";
 
@@ -33,6 +34,7 @@ export const resolvers = {
       const { title, description } = input;
       return createJob({ companyId, title, description });
     },
+    updateJob: async (_root, { input }) => updateJob({ ...input }),
     deleteJob: async (_root, { id }) => deleteJob(id),
   },
   Job: {
