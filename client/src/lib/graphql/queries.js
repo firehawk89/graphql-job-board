@@ -1,6 +1,5 @@
-import { gql, GraphQLClient } from "graphql-request";
-
-const client = new GraphQLClient("http://localhost:9000/graphql");
+import { gql } from "graphql-request";
+import gqlClient from "./client";
 
 export const getJobs = async () => {
   const query = gql`
@@ -16,7 +15,7 @@ export const getJobs = async () => {
       }
     }
   `;
-  const { jobs } = await client.request(query);
+  const { jobs } = await gqlClient.request(query);
   return jobs;
 };
 
@@ -36,7 +35,7 @@ export const getJob = async (jobId) => {
     }
   `;
   const variables = { id: jobId };
-  const { job } = await client.request(query, variables);
+  const { job } = await gqlClient.request(query, variables);
   return job;
 };
 
@@ -56,6 +55,6 @@ export const getCompany = async (companyId) => {
     }
   `;
   const variables = { id: companyId };
-  const { company } = await client.request(query, variables);
+  const { company } = await gqlClient.request(query, variables);
   return company;
 };
