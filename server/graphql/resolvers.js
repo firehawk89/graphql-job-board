@@ -45,7 +45,18 @@ export const resolvers = {
       });
     },
     updateJob: async (_root, { input }) => updateJob({ ...input }),
-    deleteJob: async (_root, { id }) => deleteJob(id),
+    deleteJob: async (_root, { id }, context) => {
+      const { user } = context;
+      if (!user) {
+        throwUnauthorizedError("You must be logged in to create a job");
+      }
+      try {
+        const job = await deleteJob(id, user.companyId);
+        return job;
+      } catch (error) {
+        throwUnauthorizedError(error.message);
+      }
+    },
   },
   Job: {
     company: async (job) => {
