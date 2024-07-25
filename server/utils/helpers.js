@@ -7,3 +7,9 @@ export const throwNotFound = (message) => {
     extensions: { code: "NOT_FOUND" },
   });
 };
+
+export const throwUnauthorizedError = (message) => {
+	throw new GraphQLError(message, {
+	  extensions: { code: "UNAUTHORIZED" },
+	});
+  };
