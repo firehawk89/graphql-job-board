@@ -44,11 +44,22 @@ export const resolvers = {
         description,
       });
     },
-    updateJob: async (_root, { input }) => updateJob({ ...input }),
+    updateJob: async (_root, { input }, context) => {
+      const { user } = context;
+      if (!user) {
+        throwUnauthorizedError("You must be logged in to update a job");
+      }
+      try {
+        const job = await updateJob({ ...input, companyId: user.companyId });
+        return job;
+      } catch (error) {
+        throwUnauthorizedError(error.message);
+      }
+    },
     deleteJob: async (_root, { id }, context) => {
       const { user } = context;
       if (!user) {
-        throwUnauthorizedError("You must be logged in to create a job");
+        throwUnauthorizedError("You must be logged in to delete a job");
       }
       try {
         const job = await deleteJob(id, user.companyId);
