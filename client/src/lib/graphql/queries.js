@@ -1,5 +1,5 @@
-import { gql } from "graphql-request";
-import gqlClient from "./client";
+import { gql } from "@apollo/client";
+import { apolloClient } from "../apollo/client";
 
 export const getJobs = async () => {
   const query = gql`
@@ -15,8 +15,8 @@ export const getJobs = async () => {
       }
     }
   `;
-  const { jobs } = await gqlClient.request(query);
-  return jobs;
+  const { data } = await apolloClient.query({ query });
+  return data.jobs;
 };
 
 export const getJob = async (jobId) => {
@@ -35,8 +35,8 @@ export const getJob = async (jobId) => {
     }
   `;
   const variables = { id: jobId };
-  const { job } = await gqlClient.request(query, variables);
-  return job;
+  const { data } = await apolloClient.query({ query, variables });
+  return data.job;
 };
 
 export const getCompany = async (companyId) => {
@@ -55,6 +55,6 @@ export const getCompany = async (companyId) => {
     }
   `;
   const variables = { id: companyId };
-  const { company } = await gqlClient.request(query, variables);
-  return company;
+  const { data } = await apolloClient.query({ query, variables });
+  return data.company;
 };
