@@ -7,7 +7,11 @@ import {
   getJobs,
   updateJob,
 } from "../db/jobs.js";
-import { formatISODate, throwNotFound } from "../utils/helpers.js";
+import {
+  formatISODate,
+  throwNotFound,
+  throwUnauthorizedError,
+} from "../utils/helpers.js";
 
 export const resolvers = {
   Query: {
@@ -28,11 +32,17 @@ export const resolvers = {
     },
   },
   Mutation: {
-    createJob: async (_root, { input }) => {
-      // FIXME: hardcoded value, should base on the user
-      const companyId = "FjcJCHJALA4i";
+    createJob: async (_root, { input }, context) => {
+      const { user } = context;
+      if (!user) {
+        throwUnauthorizedError("You must be logged in to create a job");
+      }
       const { title, description } = input;
-      return createJob({ companyId, title, description });
+      return createJob({
+        companyId: user.companyId,
+        title,
+        description,
+      });
     },
     updateJob: async (_root, { input }) => updateJob({ ...input }),
     deleteJob: async (_root, { id }) => deleteJob(id),
