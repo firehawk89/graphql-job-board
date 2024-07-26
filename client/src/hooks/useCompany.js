@@ -5,7 +5,7 @@ const useCompany = (companyId) => {
   const { loading, error, data } = useQuery(CompanyQuery, {
     variables: { id: companyId },
   });
-  return { company: data?.company, loading, isError: !!error };
+  return { company: data?.company, loading, isError: !!error, error };
 };
 
 export default useCompany;
