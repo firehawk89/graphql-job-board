@@ -4,7 +4,7 @@ import useCompany from "../hooks/useCompany";
 
 function CompanyPage() {
   const { companyId } = useParams();
-  const { loading, isError, company } = useCompany(companyId);
+  const { company, loading, isError } = useCompany(companyId);
 
   if (loading) {
     return <p>Loading...</p>;
