@@ -1,19 +1,14 @@
 import { gql } from "@apollo/client";
 import { apolloClient } from "../apollo/client";
+import { JobDetailFragment } from "./fragments";
 
 export const JobQuery = gql`
   query Job($id: ID!) {
     job(id: $id) {
-      id
-      title
-      description
-      date
-      company {
-        id
-        name
-      }
+      ...JobDetail
     }
   }
+  ${JobDetailFragment}
 `;
 
 export const getJobs = async () => {

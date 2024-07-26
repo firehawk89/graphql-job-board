@@ -1,21 +1,16 @@
 import { gql } from "@apollo/client";
 import { apolloClient } from "../apollo/client";
 import { JobQuery } from "./queries";
+import { JobDetailFragment } from "./fragments";
 
 export const createJob = async ({ title, description }) => {
   const mutation = gql`
     mutation CreateJob($input: CreateJobInput!) {
       job: createJob(input: $input) {
-        id
-        title
-        description
-        date
-        company {
-          id
-          name
-        }
+        ...JobDetail
       }
     }
+    ${JobDetailFragment}
   `;
   const { data } = await apolloClient.mutate({
     mutation,
