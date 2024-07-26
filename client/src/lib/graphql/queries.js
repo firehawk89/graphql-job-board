@@ -52,9 +52,3 @@ export const getJob = async (jobId) => {
   const { data } = await apolloClient.query({ query: JobQuery, variables });
   return data.job;
 };
-
-export const getCompany = async (companyId) => {
-  const variables = { id: companyId };
-  const { data } = await apolloClient.query({ query: CompanyQuery, variables });
-  return data.company;
-};
