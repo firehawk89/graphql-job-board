@@ -11,6 +11,21 @@ export const JobQuery = gql`
   ${JobDetailFragment}
 `;
 
+export const CompanyQuery = gql`
+  query Company($id: ID!) {
+    company(id: $id) {
+      id
+      name
+      description
+      jobs {
+        id
+        title
+        date
+      }
+    }
+  }
+`;
+
 export const getJobs = async () => {
   const query = gql`
     query Jobs {
@@ -39,21 +54,7 @@ export const getJob = async (jobId) => {
 };
 
 export const getCompany = async (companyId) => {
-  const query = gql`
-    query Company($id: ID!) {
-      company(id: $id) {
-        id
-        name
-        description
-        jobs {
-          id
-          title
-          date
-        }
-      }
-    }
-  `;
   const variables = { id: companyId };
-  const { data } = await apolloClient.query({ query, variables });
+  const { data } = await apolloClient.query({ query: CompanyQuery, variables });
   return data.company;
 };
