@@ -1,5 +1,5 @@
-import { gql } from "graphql-request";
-import gqlClient from "./client";
+import { gql } from "@apollo/client";
+import { apolloClient } from "../apollo/client";
 
 export const createJob = async ({ title, description }) => {
   const mutation = gql`
@@ -9,8 +9,9 @@ export const createJob = async ({ title, description }) => {
       }
     }
   `;
-  const { job } = await gqlClient.request(mutation, {
-    input: { title, description },
+  const { data } = await apolloClient.mutate({
+    mutation,
+    variables: { input: { title, description } },
   });
-  return job;
+  return data.job;
 };
