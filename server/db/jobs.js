@@ -14,6 +14,11 @@ export async function getJobs(limit, offset) {
   return await query;
 }
 
+export async function getJobsTotalCount() {
+  const { count } = await getJobTable().first().count("* as count");
+  return count;
+}
+
 export async function getCompanyJobs(companyId) {
   return await getJobTable().select().where({ companyId });
 }
