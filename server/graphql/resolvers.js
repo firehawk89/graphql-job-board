@@ -70,8 +70,8 @@ export const resolvers = {
     },
   },
   Job: {
-    company: async (job) => {
-      const company = await getCompany(job.companyId);
+    company: async (job, _args, { companyLoader }) => {
+      const company = await companyLoader.load(job.companyId);
       if (!company) {
         throwNotFound(`Company with ID ${id} not found`);
       }
