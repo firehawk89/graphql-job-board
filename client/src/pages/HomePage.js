@@ -8,7 +8,7 @@ const JOBS_PER_PAGE = 10;
 function HomePage() {
   const [page, setPage] = useState(1);
   const offset = (page - 1) * JOBS_PER_PAGE;
-  
+
   const { jobs, totalCount, loading, isError } = useJobs({
     limit: JOBS_PER_PAGE,
     offset,
