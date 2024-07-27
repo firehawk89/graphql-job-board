@@ -1,6 +1,6 @@
 type Query {
   job(id: ID!): Job
-  jobs(limit: Int, offset: Int): [Job!]
+  jobs(limit: Int, offset: Int): JobsResponse
   company(id: ID!): Company
 }
 
@@ -32,6 +32,11 @@ type Job {
   The __date__ when the job was published (in ISO-8601 format). E.g. `2024-01-01`
   """
   date: String!
+}
+
+type JobsResponse {
+  items: [Job!]!
+  totalCount: Int!
 }
 
 input CreateJobInput {
